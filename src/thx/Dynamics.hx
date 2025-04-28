@@ -1,5 +1,9 @@
 package thx;
 
+import haxe.ds.IntMap;
+import haxe.ds.StringMap;
+import haxe.ds.EnumValueMap;
+import haxe.ds.ObjectMap;
 using thx.Arrays;
 
 import thx.Objects;
@@ -177,6 +181,34 @@ class Dynamics {
 						return (v : Array<Dynamic>).map(function(v) return clone(v, cloneInstances));
 					case "String", "Date":
 						return v;
+					case "haxe.ds.StringMap": {
+						 var src = (v : StringMap<Dynamic>);
+						 var copied = new StringMap();
+						 for (key in src.keys())
+							 copied.set(key, clone(src.get(key),cloneInstances));
+						 return copied;
+						}
+					case "haxe.ds.IntMap": {
+						 var src = (v : IntMap<Dynamic>);
+						 var copied = new IntMap();
+						 for (key in src.keys())
+							 copied.set(key, clone(src.get(key),cloneInstances));
+						 return copied;
+						}
+					case "haxe.ds.EnumValueMap": {
+						 var src = (v : EnumValueMap<Dynamic,Dynamic>);
+						 var copied = new EnumValueMap();
+						 for (key in src.keys())
+							 copied.set(key, clone(src.get(key),cloneInstances));
+						 return copied;
+						}
+					case "haxe.ds.ObjectMap": {
+						 var src = (v : ObjectMap<Dynamic,Dynamic>);
+						 var copied = new ObjectMap();
+						 for (key in src.keys())
+							 copied.set(key, clone(src.get(key),cloneInstances));
+						 return copied;
+						}
 					default:
 						if (cloneInstances) {
 							var o = Type.createEmptyInstance(c);
